@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>Jumbotron Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+
+    <link href="css/style.css" rel="stylesheet">
+
+
+
+
+
+
+  </head>
+<style>
+
+
+
+text {
+  font: 10px sans-serif;
+}
+
+
+
+</style>
+<body>
+
+
+
+
+  <!-- Fixed navbar -->
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+          data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span> <span
+            class="icon-bar"></span> <span class="icon-bar"></span> <span
+            class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">IVIS15 Project 3 by Evert Lagerberg</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+
+          <li><a id="homeLink" href="#">Home</a></li>
+          <li><a id="historyLink" href="#history"><span
+              class="glyphicon glyphicon-record"></span>History</a></li>
+
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+
+
+<div class="container">
+<div class = "page" id="home">
+<div class="row">
+
+
+<div class="col-xs-6">
+    <div id="today">
+      
+      <h3>A Typical March Sunday</h3>
+      <h4>Year:</h4>
+      <h5>2014</h5>
+
+    </div>
+  
+</div>
+
+<div class="col-sm-6">
+
+  <div id="now">
+    <h3>Today</h3>
+    <h4>Current time: <span id="inserthour">00</span>.00.00</h4>
+    <h5>Sunday, 7 March, 2015</h5>
+  </div>
+
+
+</div>
+</div>
+</div>
+<div class ="page" id="history">
+<div class="row">
+<h3> History </h3>
+
+    <button id="monthsButton" class="btn btn-custom">Months</button>
+    <button id="weeksButton" class="btn btn-custom">Weeks</button>
+    <button id="daysButton" class="btn btn-custom">Days</button>
+
+
+
+    <div>
+      <div id="week">
+         <h3>2014 per week</h3>
+      </div>
+      <div id="days">
+        <h3>2014 per day</h3>
+      </div>
+      <div id="year">
+        <h3>2014 per month</h3>
+      </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+
+
+</body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/circularHeatChart.js"></script>
+<script src="js/circularHeatChart2.js"></script>
+<script src="js/example.js"></script>
+
+
+
+
+<script>
+
+$(document).ready(function(){
+
+    $("#week").hide();
+    $("#days").hide();
+    $("#monthsButton").click(function(){
+        $("#year").show();
+        $("#year").siblings().hide();
+    });
+
+
+    $("#weeksButton").click(function(){
+        $("#week").show();
+        $("#week").siblings().hide();
+    });
+
+    $("#daysButton").click(function(){
+        $("#days").show();
+        $("#days").siblings().hide();
+    });
+});
+
+
+
+
+coldRange =  ["#e5e5ff", "blue"];
+hotRange = ["#ffe5e5", "red"];
+electricityRange = ["#f2e5f2", "purple"];
+
+
+
+
+/*
+TO DO:
+* Legend(2014)
+* bootstrapa
+* Carousel
+* Color ramp
+* klocka
+* animering
+*/
+
+
+
+function cleanDays(data,type) {
+console.log(data);
+ 
+
+list = []
+ data.forEach(function(d) {
+ 	if(d[type]==""){
+ 		d[type] = 0;
+ 		
+ 	} else {
+ 		d[type] = parseFloat(d[type].replace(",", "."));
+
+ 	}
+ 	list.push(d[type]);
+ 	//console.log(d.energy);
+});
+ 	console.log(list.length);
+ 	
+ 	
+
+for(i=list.length; i<365;i++){
+	list.push(0);
+}
+console.log(list.length);
+
+return list;
+
+
+
+}
+
+function cleanWeeks(data,type) {
+console.log(data);
+missingData = false;
+weekTot = 0;
+count=0;
+list = []
+ data.forEach(function(d) {
+ 	if(d[type]==""){
+ 		missingData = true;
+ 		count++;
+ 		
+ 	} else {
+ 		d[type] = parseFloat(d[type].replace(",", "."));
+		weekTot = weekTot + d[type];
+		count++;
+	}
+	if (count==7){
+		if(missingData == false){
+			list.push(weekTot);
+		} else {
+			list.push(0);
+		}
+		missingData = false;
+		count = 0;
+		weekTot = 0;
+		
+	}
+
+ 	
+ 	
+ 	//console.log(d.energy);
+});
+ 	console.log(list.length);
+
+  for(i=0;i<list.length;i++){
+
+
+    console.log(list[i]);
+  }
+ 	
+
+for(i=list.length; i<52;i++){
+	list.push(0);
+}
+console.log("number of weeks");
+console.log(list.length);
+
+return list;
+
+
+
+}
+
+
+function cleanMonths(data,type) {
+console.log(data);
+missingData = false;
+weekTot = 0;
+count=0;
+list = []
+ data.forEach(function(d) {
+ 	if(d[type]==""){
+ 		missingData = true;
+ 		count++;
+ 		
+ 	} else {
+ 		d[type] = parseFloat(d[type].replace(",", "."));
+		weekTot = weekTot + d[type];
+		count++;
+	}
+	if (count==30){
+		if(missingData == false){
+			list.push(weekTot);
+		} else {
+			list.push(0);
+		}
+		missingData = false;
+		count = 0;
+		weekTot = 0;
+		
+	}
+
+ 	
+ 	
+ 	//console.log(d.energy);
+});
+ 	console.log(list.length);
+ 	
+ 	
+
+for(i=list.length; i<12;i++){
+	list.push(0);
+}
+
+console.log(list.length);
+
+return list;
+
+
+
+}
+
+function getMin(list) {
+	min = 100000000;
+	for(i=0;i<list.length;i++){
+		if(list[i] < min && list[i] > 0){
+		min = list[i];
+		}
+	}
+
+	return min;
+
+
+}
+
+
+function averageDay(data,type) {
+
+numberofDays = data.length/24;
+
+list = [];
+for(i=0;i<24;i++){
+	list[i] = 0;
+}
+
+
+ data.forEach(function(d) {
+ 	d[type] = parseFloat(d[type].replace(",", "."));
+
+ 	if(d["Date"].indexOf("00:00:00") != -1){
+
+ 		list[0] = list[0] + d[type]	
+ 	}
+  	if(d["Date"].indexOf("01:00:00") != -1){
+ 
+ 		list[1] = list[1] + d[type]	
+ 	}
+  	if(d["Date"].indexOf("02:00:00") != -1){
+
+ 		list[2] = list[2] + d[type]	
+ 	}
+  	if(d["Date"].indexOf("03:00:00") != -1){
+
+ 		list[3] = list[3] + d[type]	
+ 	}
+  	if(d["Date"].indexOf("04:00:00") != -1){
+ 	
+ 		list[4] = list[4] + d[type]	
+ 	}
+  	if(d["Date"].indexOf("05:00:00") != -1){
+ 
+ 		list[5] = list[5] + d[type]	
+ 	}
+  	if(d["Date"].indexOf("06:00:00") != -1){
+ 		
+ 		list[6] = list[6] + d[type]	
+ 	}
+  	if(d["Date"].indexOf("07:00:00") != -1){
+
+ 		list[7] = list[7] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("08:00:00") != -1){
+ 		list[8] = list[8] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("09:00:00") != -1){
+
+ 		list[9] = list[9] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("10:00:00") != -1){
+ 		
+ 		list[10] = list[10] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("11:00:00") != -1){
+ 		
+ 		list[11] = list[11] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("12:00:00") != -1){
+ 	
+ 		list[12] = list[12] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("13:00:00") != -1){
+
+ 		list[13] = list[13] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("14:00:00") != -1){
+ 	
+ 		list[14] = list[14] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("15:00:00") != -1){
+ 	
+ 		list[15] = list[15] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("16:00:00") != -1){
+ 		
+ 		list[16] = list[16] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("17:00:00") != -1){
+ 		
+ 		list[17] = list[17] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("18:00:00") != -1){
+ 
+ 		list[18] = list[18] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("19:00:00") != -1){
+ 		
+ 		list[19] = list[19] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("20:00:00") != -1){
+ 
+ 		list[20] = list[20] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("21:00:00") != -1){
+ 		
+ 		list[21] = list[21] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("22:00:00") != -1){
+ 	
+ 		list[22] = list[22] + d[type]	
+ 	}
+   	if(d["Date"].indexOf("23:00:00") != -1){
+ 	
+ 		list[23] = list[23] + d[type]	
+ 	}
+ 	
+ 
+});
+ 	console.log("tja");
+ 	console.log(list[0]);
+ 	console.log(list[23]);
+
+  console.log(list.length);
+
+
+  for(i=0;i<list.length;i++){
+
+
+    list[i] =  list[i]/numberofDays;
+    if (list[i]==0){
+      list[i]= 0.00000000000000000000000001;
+    }
+
+  }
+
+
+ 	return list;
+
+
+}
+
+
+ 
+  
+
+</script>
+<script src="js/months2014.js"></script>
+<script src="js/weeks2014.js"></script>
+<script src="js/days2014.js"></script>
+<script src="js/today.js"></script>
+<script src="js/now.js"></script>

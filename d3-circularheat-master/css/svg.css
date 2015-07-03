@@ -1,0 +1,19 @@
+/* SVG styling */
+
+
+path {
+	stroke: #777;
+	stroke-width: 0.1px;
+}
+
+.labels {
+	fill: #aaa;
+	font-weight: 2000;
+	letter-spacing: -1px;
+	color: #0088cc;
+	font-size: 100px;
+}
+.labels.segment {
+	font-size: 100px;
+}
+
